@@ -75,25 +75,27 @@ class AuctionLoader(LostarkLoader):
 class GemAuctionLoader(AuctionLoader):
     def __init__(
         self,
-        character_class: Optional[str] = None,
-        item_grade: Optional[str] = None,
+        character_class: str = "",
+        item_name: str = "",
+        item_tier: int = 3,
+        item_grade: str = "",
+        page_no: int = 0,
     ):
         super().__init__()
 
         # data
-        if character_class is None:
-            character_class = ""
-
-        if item_grade is None:
-            item_grade = ""
+        if item_tier not in [1, 2, 3]:
+            raise ValueError("item_tier는 1, 2, 3중 하나이어야 합니다")
 
         data = {
             "Sort": "BIDSTART_PRICE",  # 경매 시작가로 정렬
             "SortCondition": "ASC",  # 오름차순 정렬
             "CharacterClass": character_class,
             "ItemGrade": item_grade,
-            "ItemTier": 3,
+            "ItemTier": item_tier,
             "CategoryCode": 210000,
+            "PageNo": page_no,
+            "ItemName": item_name,
         }
         self.data = str(data)
 
@@ -108,5 +110,5 @@ class AccessoryLoader(AuctionLoader):
 
 
 if __name__ == "__main__":
-    gem_loader = GemAuctionLoader()
+    gem_loader = GemAuctionLoader(item_grade="전설", item_name="7레벨 멸화의 보석")
     pprint(gem_loader.load())
