@@ -1,15 +1,44 @@
 import json
 import requests
 from abc import *
+from typing import Optional
+from pprint import pprint
+
+from utils import *
 
 
-class Loader(metaclass=ABCMeta):
-    def __init__(self, JWT):
-        self.JWT = JWT
+class LostarkLoader(metaclass=ABCMeta):
+    def __init__(self):
+        self.JWT = get_JWT()
 
         self.url = None
         self.headers = None
-        self.data = None
+        self.data = None  # dict
+        self.method = None
+
+    def load_content(self):
+        """
+        only load url, not process
+
+        Retuns:
+            response.content
+
+        Raises:
+            raise error when reponse != 200
+        """
+        if self.method == "get":
+            pass
+        elif self.method == "post":
+            response = requests.post(
+                url=self.url, headers=self.headers, data=str(self.data).encode()
+            )
+
+        if response.status_code != 200:
+            # TODO : value error
+            raise ValueError("일단 어떤 에러를 띄우는게 맞는지 모르니 ValueError")
+
+        content = json.loads(response.content)
+        return content
 
     @abstractmethod
     def load(self, url):
@@ -20,16 +49,53 @@ class Loader(metaclass=ABCMeta):
         pass
 
 
-class AuctionLoader(Loader):
-    def __init__(self, JWT):
-        super().__init__(JWT)
+class AuctionLoader(LostarkLoader):
+    def __init__(
+        self,
+    ):
+        super().__init__()
         self.url = "https://developer-lostark.game.onstove.com/auctions/items"
         self.headers = {
             "accept": "application/json",
             "Content-Type": "application/json",
             "authorization": f"bearer {self.JWT}",
         }
-        self.data_json = json.loads("{}")  # empty json object
+        self.data = None
+        self.method = "post"
+
+    def load(self):
+        content = self.load_content()
+
+        return content
+
+    def preprocess(self):
+        pass
+
+
+class GemAuctionLoader(AuctionLoader):
+    def __init__(
+        self,
+        character_class: Optional[str] = None,
+        item_grade: Optional[str] = None,
+    ):
+        super().__init__()
+
+        # data
+        if character_class is None:
+            character_class = ""
+
+        if item_grade is None:
+            item_grade = ""
+
+        data = {
+            "Sort": "BIDSTART_PRICE",  # 경매 시작가로 정렬
+            "SortCondition": "ASC",  # 오름차순 정렬
+            "CharacterClass": character_class,
+            "ItemGrade": item_grade,
+            "ItemTier": 3,
+            "CategoryCode": 210000,
+        }
+        self.data = str(data)
 
 
 class AccessoryLoader(AuctionLoader):
@@ -39,3 +105,8 @@ class AccessoryLoader(AuctionLoader):
     def load(self, type):
         # 요기 json 다루는 코드가 좀 길~게 필요할 듯
         pass
+
+
+if __name__ == "__main__":
+    gem_loader = GemAuctionLoader()
+    pprint(gem_loader.load())
