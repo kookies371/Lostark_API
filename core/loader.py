@@ -18,10 +18,10 @@ class LostarkLoader(metaclass=ABCMeta):
 
     def load_content(self):
         """
-        only load url, not process
+        only load content from self.url
 
         Retuns:
-            response.content
+            python object from 'reponse.content'
 
         Raises:
             raise error when reponse != 200
@@ -77,15 +77,15 @@ class GemAuctionLoader(AuctionLoader):
         self,
         character_class: str = "",
         item_name: str = "",
-        item_tier: int = 3,
+        item_tier: int = "",
         item_grade: str = "",
         page_no: int = 0,
     ):
         super().__init__()
 
         # data
-        if item_tier not in [1, 2, 3]:
-            raise ValueError("item_tier는 1, 2, 3중 하나이어야 합니다")
+        # if item_tier not in [1, 2, 3]:
+        #     raise ValueError("item_tier는 1, 2, 3중 하나이어야 합니다")
 
         data = {
             "Sort": "BIDSTART_PRICE",  # 경매 시작가로 정렬
@@ -99,6 +99,17 @@ class GemAuctionLoader(AuctionLoader):
         }
         self.data = str(data)
 
+class AmuletAuctionLoader(AuctionLoader):
+    def __init__(
+        self,
+        character_class: str = "",
+
+    ):
+        super().__init__()
+
+        # data
+        pass
+
 
 class AccessoryLoader(AuctionLoader):
     def __init__(self, JWT):
@@ -110,5 +121,5 @@ class AccessoryLoader(AuctionLoader):
 
 
 if __name__ == "__main__":
-    gem_loader = GemAuctionLoader(item_grade="전설", item_name="7레벨 멸화의 보석")
+    gem_loader = GemAuctionLoader(item_tier="")
     pprint(gem_loader.load())
