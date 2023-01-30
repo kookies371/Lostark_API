@@ -6,6 +6,15 @@ from pprint import pprint
 
 from utils import *
 
+# TODO
+"""
+공통옵션들: 
+    character_class
+    item_name
+    item_tier
+    item_grade
+    page_no
+"""
 
 class LostarkLoader(metaclass=ABCMeta):
     def __init__(self):
@@ -33,9 +42,9 @@ class LostarkLoader(metaclass=ABCMeta):
                 url=self.url, headers=self.headers, data=str(self.data).encode()
             )
 
-        if response.status_code != 200:
+        if (response_code := response.status_code) != 200:
             # TODO : value error
-            raise ValueError("일단 어떤 에러를 띄우는게 맞는지 모르니 ValueError")
+            raise ValueError(f"API response error (error code = {response_code})")
 
         content = json.loads(response.content)
         return content
@@ -77,7 +86,7 @@ class GemAuctionLoader(AuctionLoader):
         self,
         character_class: str = "",
         item_name: str = "",
-        item_tier: int = "",
+        item_tier: int = "", # 얘 0 넣으면 에러 뜸
         item_grade: str = "",
         page_no: int = 0,
     ):
@@ -103,12 +112,48 @@ class AmuletAuctionLoader(AuctionLoader):
     def __init__(
         self,
         character_class: str = "",
-
+        item_name: str = "",
+        item_tier: int = "",
+        item_grade: str = "",
+        page_no: int = 0,
+        skill_name: str = "",
+        tripod_name: str = "",
     ):
         super().__init__()
 
         # data
-        pass
+        data = {
+            "Sort": "BIDSTART_PRICE",  # 경매 시작가로 정렬
+            "SortCondition": "ASC",  # 오름차순 정렬
+            # "CharacterClass": character_class,
+            "ItemGrade": item_grade,
+            "ItemTier": item_tier,
+            "CategoryCode": 170300,
+            "PageNo": page_no,
+            "ItemName": item_name,
+            "SkillOptions": [{
+                "FirstOption": 38240,
+                "SecondOption": 8,
+                "MinValue": 5,
+            },
+            {
+                "FirstOption": 38240,
+                # "SecondOption": 8,
+                # "MinValue": 5,
+            },
+            {
+                "FirstOption": 38240,
+                # "SecondOption": 8,
+                # "MinValue": 5,
+            },
+            {
+                "FirstOption": 38240,
+                # "SecondOption": 8,
+                # "MinValue": 5,
+            }
+            ]
+        }
+        self.data = str(data)
 
 
 class AccessoryLoader(AuctionLoader):
@@ -121,5 +166,10 @@ class AccessoryLoader(AuctionLoader):
 
 
 if __name__ == "__main__":
-    gem_loader = GemAuctionLoader(item_tier="")
-    pprint(gem_loader.load())
+    # gem_loader = GemAuctionLoader(item_tier="")
+    amulet_loader = AmuletAuctionLoader(character_class="건슬링어", )
+    # pprint(gem_loader.load())
+    result = amulet_loader.load()
+    pprint(result)
+    # for amulet in result["Items"]:
+    #     print(amulet["Name"], amulet["AuctionInfo"]["BidStartPrice"])
