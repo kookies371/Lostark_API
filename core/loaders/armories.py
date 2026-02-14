@@ -23,7 +23,7 @@ class ArmoryProfileLoader(LostarkLoader):
         super().__init__()
         self.method = "get"
 
-    def load(self, character_name: str, filters: str | list[str] = "equipment"):
+    def load(self, character_name: str, filters: str | list[str]):
         """
         캐릭터 스펙 정보 조회 (Armory)
 

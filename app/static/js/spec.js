@@ -1,8 +1,8 @@
 /**
  * 캐릭터 스펙 정보 조회 탭
  * - API 호출: /api/character/{character_name}
- * - 데이터: ArmoryEquipment 배열
- * - 렌더링: 장비 카드 리스트
+ * - 데이터: { ArmoryEquipment, ArmoryCard: { Cards, Effects } }
+ * - 렌더링: 장비 + 카드 정보
  */
 
 // ============================================================
@@ -62,45 +62,57 @@ function showResultSpec(data) {
     const resultDiv = document.getElementById('resultSpec');
     const jsonContent = document.getElementById('jsonContentSpec');
 
-    // ArmoryEquipment 배열인지 확인
-    if (Array.isArray(data.ArmoryEquipment)) {
-        // 장비 정보 렌더링
-        jsonContent.innerHTML = renderArmoryEquipment(data.ArmoryEquipment);
-    } else if (Array.isArray(data)) {
-        // 캐릭터 원정대 정보 렌더링 (혹시 모를 대비)
-        const groupedByServer = groupCharactersByServer(data);
-        const sortedServers = sortServers(groupedByServer);
-        jsonContent.innerHTML = renderCharactersByServer(sortedServers, groupedByServer);
-    } else {
+    if (!data || typeof data !== 'object') {
         jsonContent.innerHTML = '<p>데이터 형식을 인식할 수 없습니다.</p>';
+        resultDiv.style.display = 'block';
+        return;
     }
+
+    let html = '';
+
+    // 장비 정보 렌더링
+    if (Array.isArray(data.ArmoryEquipment) && data.ArmoryEquipment.length > 0) {
+        html += renderEquipmentSection(data.ArmoryEquipment);
+    }
+
+    // 카드 정보 렌더링
+    if (data.ArmoryCard && data.ArmoryCard.Cards) {
+        html += renderCardSection(data.ArmoryCard.Cards, data.ArmoryCard.Effects);
+    }
+
+    if (!html) {
+        jsonContent.innerHTML = '<p>표시할 데이터가 없습니다.</p>';
+    } else {
+        jsonContent.innerHTML = html;
+    }
+
     resultDiv.style.display = 'block';
 }
 
 // ============================================================
-// 데이터 처리 및 렌더링
+// 장비 섹션 렌더링
 // ============================================================
 
-function renderArmoryEquipment(equipment) {
-    let html = '<div class="equipment-container">';
+function renderEquipmentSection(equipment) {
+    let html = '<div class="spec-section">';
+    html += '<h3 class="section-title">⚔️ 장비</h3>';
+    html += '<div class="equipment-list">';
 
     equipment.forEach(item => {
         const grade = item.Grade || '미정의';
         const gradeClass = getGradeClass(grade);
 
-        html += `<div class="equipment-card ${gradeClass}">
-            <div class="item-header">
-                <img src="${item.Icon}" alt="${item.Name}" class="item-icon">
-                <div class="item-info">
-                    <div class="item-type">${item.Type}</div>
-                    <div class="item-name">${item.Name}</div>
-                    <div class="item-grade">${grade}</div>
-                </div>
+        html += `<div class="equipment-item ${gradeClass}">
+            <img src="${item.Icon}" alt="${item.Name}" class="item-icon">
+            <div class="item-details">
+                <div class="item-type">${item.Type}</div>
+                <div class="item-name">${item.Name}</div>
+                <div class="item-grade">${grade}</div>
             </div>
         </div>`;
     });
 
-    html += '</div>';
+    html += '</div></div>';
     return html;
 }
 
@@ -115,4 +127,75 @@ function getGradeClass(grade) {
         '일반': 'grade-common'
     };
     return gradeMap[grade] || 'grade-unknown';
+}
+
+// ============================================================
+// 카드 섹션 렌더링
+// ============================================================
+
+function renderCardSection(cards, effects) {
+    let html = '<div class="spec-section">';
+    html += '<h3 class="section-title">📇 카드</h3>';
+
+    // 카드 그리드
+    html += '<div class="card-list">';
+    cards.forEach(card => {
+        const gradeClass = getCardGradeClass(card.Grade);
+        const awakeProgress = Math.round((card.AwakeCount / card.AwakeTotal) * 100);
+
+        html += `<div class="card-item ${gradeClass}">
+            <div class="card-image">
+                <img src="${card.Icon}" alt="${card.Name}">
+                <div class="slot-badge">${card.Slot}</div>
+            </div>
+            <div class="card-info">
+                <div class="card-name">${card.Name}</div>
+                <div class="card-grade">${card.Grade}</div>
+                <div class="awake-meter">
+                    <div class="awake-progress" style="width: ${awakeProgress}%"></div>
+                </div>
+                <div class="awake-text">${card.AwakeCount}/${card.AwakeTotal}</div>
+            </div>
+        </div>`;
+    });
+    html += '</div>';
+
+    // 카드 세트 효과
+    if (effects && Array.isArray(effects) && effects.length > 0) {
+        html += '<div class="card-effects-section">';
+        html += '<h4 class="effects-title">✨ 세트 효과</h4>';
+
+        effects.forEach(effect => {
+            const activeSlots = effect.CardSlots.map(s => `[${s}]`).join(' ');
+
+            html += '<div class="effect-box">';
+            html += `<div class="effect-slots">활성화 슬롯: ${activeSlots}</div>`;
+
+            html += '<div class="effect-items">';
+            effect.Items.forEach(item => {
+                html += `<div class="effect-row">
+                    <span class="effect-item-name">${item.Name}</span>
+                    <span class="effect-item-desc">${item.Description}</span>
+                </div>`;
+            });
+            html += '</div>';
+            html += '</div>';
+        });
+
+        html += '</div>';
+    }
+
+    html += '</div>';
+    return html;
+}
+
+function getCardGradeClass(grade) {
+    const gradeMap = {
+        '전설': 'card-grade-legend',
+        '영웅': 'card-grade-hero',
+        '희귀': 'card-grade-rare',
+        '고급': 'card-grade-uncommon',
+        '일반': 'card-grade-common'
+    };
+    return gradeMap[grade] || 'card-grade-unknown';
 }

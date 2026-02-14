@@ -75,7 +75,7 @@ async def get_character_spec(character_name: str):
     """
     try:
         loader = ArmoryProfileLoader()
-        result = loader.load(character_name)
+        result = loader.load(character_name, filters=["equipment", "cards"])
         return result
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
