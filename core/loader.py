@@ -4,7 +4,7 @@ from abc import *
 from typing import Optional
 from pprint import pprint
 
-from utils import *
+from .utils import get_JWT
 
 # TODO
 """

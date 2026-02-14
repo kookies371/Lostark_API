@@ -1,10 +1,15 @@
 import requests
 import json
+import os
+import sys
 from urllib import parse
 from pprint import pprint
 
+# JWT를 utils 모듈에서 로드
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'core'))
+from utils import get_JWT
 
-JWT = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6IktYMk40TkRDSTJ5NTA5NWpjTWk5TllqY2lyZyIsImtpZCI6IktYMk40TkRDSTJ5NTA5NWpjTWk5TllqY2lyZyJ9.eyJpc3MiOiJodHRwczovL2x1ZHkuZ2FtZS5vbnN0b3ZlLmNvbSIsImF1ZCI6Imh0dHBzOi8vbHVkeS5nYW1lLm9uc3RvdmUuY29tL3Jlc291cmNlcyIsImNsaWVudF9pZCI6IjEwMDAwMDAwMDAwMDEwNTcifQ.qS72PJC-K_pjvzEvF52Tf_cFe-z5Y45LlAUNOnNxQS7oM5gg7UQeOBONK7qheYRpD5I-xPy_vd53ZbnkVBQ_p7TJiqaPVNxbMKA_tiCOl2i6hGv7wBhPz02ZGOo3xjxYWYTBReG05pYtLS3RUEJmTLI2dzcSWUPHmHHhc8jPIe2K7JNsR8zxb4JO2QW6Y0uFgC_EgXm77X4MC28idTdEZTv_3Kh66knd4hV6w1O59SfajTMyOyDkZyheEJTIt-OAOHYBPxA1D3OLwlTBIapwz1Zmt3_Qwl_0munJEWWF8yaAazKhA6juOnlm_FxL1QoP2Hw9dbjVCabn5wUJNxq7eQ'
+JWT = get_JWT()
 
 class LostarkLoader():
     def __init__(self, JWT: str):
