@@ -217,6 +217,76 @@ Lostark_API/
 
 ---
 
+## 🔌 API 응답 구조
+
+### 1. `/api/expedition/{character_name}`
+
+같은 계정의 모든 캐릭터 조회
+
+```
+[ 캐릭터 객체, ... ]
+
+캐릭터 객체:
+{
+  "CharacterName": string      # 캐릭터 이름
+  "CharacterClassName": string # 직업명
+  "CharacterLevel": number     # 캐릭터 레벨
+  "ItemAvgLevel": string       # 아이템 레벨 (쉼표 포함: "1,500.50")
+  "ServerName": string         # 서버명
+}
+```
+
+---
+
+### 2. `/api/character/{character_name}`
+
+캐릭터의 장비 및 카드 정보 조회
+
+```
+{
+  "ArmoryEquipment": [
+    {
+      "Type": string      # 부위 ("목걸이", "귀걸이" 등)
+      "Name": string      # 아이템 이름
+      "Icon": string      # 아이콘 URL
+      "Grade": string     # 등급 ("전설", "영웅", "희귀", "고급", "일반")
+    },
+    ...
+  ],
+
+  "ArmoryCard": {
+    "Cards": [
+      {
+        "Slot": number        # 슬롯 번호 (0~5)
+        "Name": string        # 카드 이름
+        "Icon": string        # 카드 이미지 URL
+        "Grade": string       # 카드 등급
+        "AwakeCount": number  # 현재 각성 수
+        "AwakeTotal": number  # 최대 각성 수
+        "Tooltip": string     # 카드 상세 정보 (HTML 문자열)
+      },
+      ...
+    ],
+
+    "Effects": [
+      {
+        "Index": number       # 세트 인덱스
+        "CardSlots": [number] # 활성화 슬롯 배열
+        "Items": [
+          {
+            "Name": string        # 세트 효과 이름
+            "Description": string # 효과 설명
+          },
+          ...
+        ]
+      }
+    ]
+  }
+}
+```
+
+---
+
 ## 🔄 최근 변경사항 (참고용)
 
 **2024년 12월 - 카드 정보 웹 시각화**
