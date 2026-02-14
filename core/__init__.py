@@ -5,6 +5,7 @@ from .loaders import (
     AmuletAuctionLoader,
     CharacterLoader,
     CardLoader,
+    ArmoryProfileLoader,
 )
 from .entities import Accessory, AccessorySetting, AccessoryType, Engrave, Status
 from .utils import get_JWT
@@ -16,6 +17,7 @@ __all__ = [
     "AmuletAuctionLoader",
     "CharacterLoader",
     "CardLoader",
+    "ArmoryProfileLoader",
     "Accessory",
     "AccessorySetting",
     "AccessoryType",

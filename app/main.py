@@ -9,7 +9,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
-from core import CharacterLoader
+from core import CharacterLoader, ArmoryProfileLoader
 
 app = FastAPI(
     title="로스트아크 캐릭터 정보 API",
@@ -65,7 +65,7 @@ async def get_character_expedition(character_name: str):
 @app.get("/api/character/{character_name}")
 async def get_character_spec(character_name: str):
     """
-    캐릭터 스펙 정보 조회
+    캐릭터 스펙 정보 조회 (장비, 스텟, 각인 등)
 
     Args:
         character_name: 조회할 캐릭터 이름
@@ -74,7 +74,7 @@ async def get_character_spec(character_name: str):
         캐릭터의 스펙 정보 (JSON)
     """
     try:
-        loader = CharacterLoader()
+        loader = ArmoryProfileLoader()
         result = loader.load(character_name)
         return result
     except Exception as e:

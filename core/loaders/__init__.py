@@ -1,6 +1,7 @@
 from .base import LostarkLoader
 from .auction import AuctionLoader, GemAuctionLoader, AmuletAuctionLoader
 from .character import CharacterLoader, CardLoader
+from .armories import ArmoryProfileLoader
 
 __all__ = [
     "LostarkLoader",
@@ -9,4 +10,5 @@ __all__ = [
     "AmuletAuctionLoader",
     "CharacterLoader",
     "CardLoader",
+    "ArmoryProfileLoader",
 ]
