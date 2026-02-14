@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로스트아크 캐릭터 조회</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🎮 로스트아크 캐릭터 조회</h1>
+
+        <div class="search-form">
+            <input
+                type="text"
+                id="characterName"
+                placeholder="캐릭터 이름을 입력하세요"
+                onkeypress="if(event.key==='Enter') search()"
+            >
+            <button onclick="search()">검색</button>
+        </div>
+
+        <div class="loading" id="loading">
+            검색 중...
+        </div>
+
+        <div class="error" id="error"></div>
+
+        <div class="result" id="result">
+            <h2>검색 결과</h2>
+            <div class="json-content" id="jsonContent"></div>
+        </div>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>
