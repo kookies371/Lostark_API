@@ -1,14 +1,60 @@
-async function search() {
-    const characterName = document.getElementById('characterName').value.trim();
+// 탭 전환 함수
+function switchTab(tabName, button) {
+    // 모든 탭 내용 숨기기
+    const tabContents = document.querySelectorAll('.tab-content');
+    tabContents.forEach(tab => tab.classList.remove('active'));
+
+    // 모든 탭 버튼 비활성화
+    const tabButtons = document.querySelectorAll('.tab-button');
+    tabButtons.forEach(btn => btn.classList.remove('active'));
+
+    // 선택된 탭 활성화
+    document.getElementById(`tab-${tabName}`).classList.add('active');
+    button.classList.add('active');
+}
+
+// 원정대 정보 검색
+async function searchExpedition() {
+    const characterName = document.getElementById('characterNameExpedition').value.trim();
 
     if (!characterName) {
-        showError('캐릭터 이름을 입력해주세요.');
+        showErrorExpedition('캐릭터 이름을 입력해주세요.');
         return;
     }
 
-    showLoading(true);
-    hideError();
-    hideResult();
+    showLoadingExpedition(true);
+    hideErrorExpedition();
+    hideResultExpedition();
+
+    try {
+        const response = await fetch(`/api/expedition/${encodeURIComponent(characterName)}`);
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.detail || '조회 실패');
+        }
+
+        const data = await response.json();
+        showResultExpedition(data);
+    } catch (error) {
+        showErrorExpedition(`오류: ${error.message}`);
+    } finally {
+        showLoadingExpedition(false);
+    }
+}
+
+// 스펙 정보 검색
+async function searchSpec() {
+    const characterName = document.getElementById('characterNameSpec').value.trim();
+
+    if (!characterName) {
+        showErrorSpec('캐릭터 이름을 입력해주세요.');
+        return;
+    }
+
+    showLoadingSpec(true);
+    hideErrorSpec();
+    hideResultSpec();
 
     try {
         const response = await fetch(`/api/character/${encodeURIComponent(characterName)}`);
@@ -19,31 +65,32 @@ async function search() {
         }
 
         const data = await response.json();
-        showResult(data);
+        showResultSpec(data);
     } catch (error) {
-        showError(`오류: ${error.message}`);
+        showErrorSpec(`오류: ${error.message}`);
     } finally {
-        showLoading(false);
+        showLoadingSpec(false);
     }
 }
 
-function showLoading(show) {
-    document.getElementById('loading').style.display = show ? 'block' : 'none';
+// 원정대 정보 탭 헬퍼 함수
+function showLoadingExpedition(show) {
+    document.getElementById('loadingExpedition').style.display = show ? 'block' : 'none';
 }
 
-function showError(message) {
-    const errorDiv = document.getElementById('error');
+function showErrorExpedition(message) {
+    const errorDiv = document.getElementById('errorExpedition');
     errorDiv.textContent = message;
     errorDiv.style.display = 'block';
 }
 
-function hideError() {
-    document.getElementById('error').style.display = 'none';
+function hideErrorExpedition() {
+    document.getElementById('errorExpedition').style.display = 'none';
 }
 
-function showResult(data) {
-    const resultDiv = document.getElementById('result');
-    const jsonContent = document.getElementById('jsonContent');
+function showResultExpedition(data) {
+    const resultDiv = document.getElementById('resultExpedition');
+    const jsonContent = document.getElementById('jsonContentExpedition');
 
     // 서버별로 그룹화
     const groupedByServer = groupCharactersByServer(data);
@@ -54,6 +101,44 @@ function showResult(data) {
     // HTML 생성
     jsonContent.innerHTML = renderCharactersByServer(sortedServers, groupedByServer);
     resultDiv.style.display = 'block';
+}
+
+function hideResultExpedition() {
+    document.getElementById('resultExpedition').style.display = 'none';
+}
+
+// 스펙 정보 탭 헬퍼 함수
+function showLoadingSpec(show) {
+    document.getElementById('loadingSpec').style.display = show ? 'block' : 'none';
+}
+
+function showErrorSpec(message) {
+    const errorDiv = document.getElementById('errorSpec');
+    errorDiv.textContent = message;
+    errorDiv.style.display = 'block';
+}
+
+function hideErrorSpec() {
+    document.getElementById('errorSpec').style.display = 'none';
+}
+
+function showResultSpec(data) {
+    const resultDiv = document.getElementById('resultSpec');
+    const jsonContent = document.getElementById('jsonContentSpec');
+
+    // 서버별로 그룹화
+    const groupedByServer = groupCharactersByServer(data);
+
+    // 정렬된 서버 목록
+    const sortedServers = sortServers(groupedByServer);
+
+    // HTML 생성
+    jsonContent.innerHTML = renderCharactersByServer(sortedServers, groupedByServer);
+    resultDiv.style.display = 'block';
+}
+
+function hideResultSpec() {
+    document.getElementById('resultSpec').style.display = 'none';
 }
 
 function groupCharactersByServer(characters) {
@@ -191,6 +276,3 @@ function formatJsonPretty(obj, indent = 0) {
     return String(obj);
 }
 
-function hideResult() {
-    document.getElementById('result').style.display = 'none';
-}

@@ -43,16 +43,35 @@ async def health_check():
     return {"status": "ok"}
 
 
-@app.get("/api/character/{character_name}")
-async def get_character_equipment(character_name: str):
+@app.get("/api/expedition/{character_name}")
+async def get_character_expedition(character_name: str):
     """
-    캐릭터 장비 정보 조회
+    캐릭터 원정대 정보 조회
 
     Args:
         character_name: 조회할 캐릭터 이름
 
     Returns:
-        캐릭터의 장비 정보 (JSON)
+        캐릭터의 원정대 정보 (JSON)
+    """
+    try:
+        loader = CharacterLoader()
+        result = loader.load(character_name)
+        return result
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+@app.get("/api/character/{character_name}")
+async def get_character_spec(character_name: str):
+    """
+    캐릭터 스펙 정보 조회
+
+    Args:
+        character_name: 조회할 캐릭터 이름
+
+    Returns:
+        캐릭터의 스펙 정보 (JSON)
     """
     try:
         loader = CharacterLoader()

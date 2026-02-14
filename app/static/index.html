@@ -11,25 +11,62 @@
     <div class="container">
         <h1>🎮 로스트아크 캐릭터 조회</h1>
 
-        <div class="search-form">
-            <input
-                type="text"
-                id="characterName"
-                placeholder="캐릭터 이름을 입력하세요"
-                onkeypress="if(event.key==='Enter') search()"
-            >
-            <button onclick="search()">검색</button>
+        <!-- 탭 메뉴 -->
+        <div class="tabs">
+            <button class="tab-button active" onclick="switchTab('expedition', this)">
+                원정대 정보
+            </button>
+            <button class="tab-button" onclick="switchTab('spec', this)">
+                스펙 정보
+            </button>
         </div>
 
-        <div class="loading" id="loading">
-            검색 중...
+        <!-- 탭 1: 원정대 정보 -->
+        <div id="tab-expedition" class="tab-content active">
+            <div class="search-form">
+                <input
+                    type="text"
+                    id="characterNameExpedition"
+                    placeholder="캐릭터 이름을 입력하세요"
+                    onkeypress="if(event.key==='Enter') searchExpedition()"
+                >
+                <button onclick="searchExpedition()">검색</button>
+            </div>
+
+            <div class="loading" id="loadingExpedition">
+                검색 중...
+            </div>
+
+            <div class="error" id="errorExpedition"></div>
+
+            <div class="result" id="resultExpedition">
+                <h2>검색 결과</h2>
+                <div id="jsonContentExpedition"></div>
+            </div>
         </div>
 
-        <div class="error" id="error"></div>
+        <!-- 탭 2: 스펙 정보 -->
+        <div id="tab-spec" class="tab-content">
+            <div class="search-form">
+                <input
+                    type="text"
+                    id="characterNameSpec"
+                    placeholder="캐릭터 이름을 입력하세요"
+                    onkeypress="if(event.key==='Enter') searchSpec()"
+                >
+                <button onclick="searchSpec()">검색</button>
+            </div>
 
-        <div class="result" id="result">
-            <h2>검색 결과</h2>
-            <div id="jsonContent"></div>
+            <div class="loading" id="loadingSpec">
+                검색 중...
+            </div>
+
+            <div class="error" id="errorSpec"></div>
+
+            <div class="result" id="resultSpec">
+                <h2>검색 결과</h2>
+                <div id="jsonContentSpec"></div>
+            </div>
         </div>
     </div>
 
