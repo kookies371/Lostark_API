@@ -131,3 +131,6 @@ dmypy.json
 
 # my secret informations
 _secret/
+
+# API 응답 예시 (개인 데이터 포함 가능)
+api_examples/
