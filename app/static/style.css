@@ -504,3 +504,92 @@ button:active {
     font-size: 12px;
     color: #666;
 }
+
+/* 각인 스타일 */
+.engraving-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 30px;
+}
+
+.engraving-item {
+    padding: 15px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    background: white;
+    transition: all 0.2s;
+}
+
+.engraving-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.engraving-item.engraving-grade-relic {
+    border-left: 4px solid #FA5D00;
+    background: rgba(250, 93, 0, 0.05);
+}
+
+.engraving-item.engraving-grade-ancient {
+    border-left: 4px solid #E3C7A1;
+    background: rgba(227, 199, 161, 0.05);
+}
+
+.engraving-item.engraving-grade-legend {
+    border-left: 4px solid #FFD200;
+    background: rgba(255, 210, 0, 0.05);
+}
+
+.engraving-item.engraving-grade-hero {
+    border-left: 4px solid #A335EE;
+    background: rgba(163, 53, 238, 0.05);
+}
+
+.engraving-item.engraving-grade-rare {
+    border-left: 4px solid #0070DD;
+    background: rgba(0, 112, 221, 0.05);
+}
+
+.engraving-item.engraving-grade-uncommon {
+    border-left: 4px solid #1EFF00;
+    background: rgba(30, 255, 0, 0.05);
+}
+
+.engraving-item.engraving-grade-common {
+    border-left: 4px solid #9d9d9d;
+    background: rgba(157, 157, 157, 0.05);
+}
+
+.engraving-details {
+    margin-bottom: 10px;
+}
+
+.engraving-grade {
+    font-size: 11px;
+    color: #999;
+    margin-bottom: 3px;
+    font-weight: 500;
+}
+
+.engraving-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 3px;
+    word-break: break-word;
+}
+
+.engraving-level {
+    font-size: 11px;
+    color: #4db96d;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.engraving-desc {
+    font-size: 12px;
+    color: #555;
+    line-height: 1.5;
+    word-break: break-word;
+}

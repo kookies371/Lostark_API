@@ -244,41 +244,273 @@ Lostark_API/
 
 ```
 {
+  "ArmoryProfile": {
+    "CharacterImage": "string",
+    "ExpeditionLevel": "integer",
+    "TownLevel": "integer (null 가능)",
+    "TownName": "string",
+    "Title": "string",
+    "GuildMemberGrade": "string",
+    "GuildName": "string",
+    "UsingSkillPoint": "integer",
+    "TotalSkillPoint": "integer",
+    "Stats": [
+      {
+        "Type": "string",
+        "Value": "string",
+        "Tooltip": ["string"]
+      }
+    ],
+    "Tendencies": [
+      {
+        "Type": "string",
+        "Point": "integer",
+        "MaxPoint": "integer"
+      }
+    ],
+    "CombatPower": "string",
+    "Decorations": {
+      "Symbol": "string",
+      "Emblems": ["string"]
+    },
+    "HonorPoint": "integer",
+    "ServerName": "string",
+    "CharacterName": "string",
+    "CharacterLevel": "integer",
+    "CharacterClassName": "string",
+    "ItemAvgLevel": "string"
+  },
+
   "ArmoryEquipment": [
     {
-      "Type": string      # 부위 ("목걸이", "귀걸이" 등)
-      "Name": string      # 아이템 이름
-      "Icon": string      # 아이콘 URL
-      "Grade": string     # 등급 ("전설", "영웅", "희귀", "고급", "일반")
-    },
-    ...
+      "Type": "string",
+      "Name": "string",
+      "Icon": "string",
+      "Grade": "string",
+      "Tooltip": "string"
+    }
   ],
+
+  "ArmoryAvatar": [
+    {
+      "Type": "string",
+      "Name": "string",
+      "Icon": "string",
+      "Grade": "string",
+      "IsSet": "boolean",
+      "IsInner": "boolean",
+      "Tooltip": "string"
+    }
+  ],
+
+  "ArmorySkill": [
+    {
+      "Name": "string",
+      "Icon": "string",
+      "Level": "integer",
+      "Type": "string",
+      "SkillType": "integer",
+      "Tripods": [
+        {
+          "Tier": "integer",
+          "Slot": "integer",
+          "Name": "string",
+          "Icon": "string",
+          "IsSelected": "boolean",
+          "Tooltip": "string"
+        }
+      ],
+      "Rune": {
+        "Name": "string",
+        "Icon": "string",
+        "Grade": "string",
+        "Tooltip": "string"
+      },
+      "Tooltip": "string"
+    }
+  ],
+
+  "ArmoryEngraving": {
+    "Engravings": [
+      {
+        "Slot": "integer",
+        "Name": "string",
+        "Icon": "string",
+        "Tooltip": "string"
+      }
+    ],
+    "Effects": [
+      {
+        "Icon": "string",
+        "Name": "string",
+        "Description": "string"
+      }
+    ],
+    "ArkPassiveEffects": [
+      {
+        "AbilityStoneLevel": "integer (null 가능)",
+        "Grade": "string",
+        "Level": "integer",
+        "Name": "string",
+        "Description": "string"
+      }
+    ]
+  },
 
   "ArmoryCard": {
     "Cards": [
       {
-        "Slot": number        # 슬롯 번호 (0~5)
-        "Name": string        # 카드 이름
-        "Icon": string        # 카드 이미지 URL
-        "Grade": string       # 카드 등급
-        "AwakeCount": number  # 현재 각성 수
-        "AwakeTotal": number  # 최대 각성 수
-        "Tooltip": string     # 카드 상세 정보 (HTML 문자열)
-      },
-      ...
+        "Slot": "integer",
+        "Name": "string",
+        "Icon": "string",
+        "AwakeCount": "integer",
+        "AwakeTotal": "integer",
+        "Grade": "string",
+        "Tooltip": "string"
+      }
     ],
-
     "Effects": [
       {
-        "Index": number       # 세트 인덱스
-        "CardSlots": [number] # 활성화 슬롯 배열
+        "Index": "integer",
+        "CardSlots": ["integer"],
         "Items": [
           {
-            "Name": string        # 세트 효과 이름
-            "Description": string # 효과 설명
-          },
-          ...
+            "Name": "string",
+            "Description": "string"
+          }
         ]
+      }
+    ]
+  },
+
+  "ArmoryGem": {
+    "Gems": [
+      {
+        "Slot": "integer",
+        "Name": "string",
+        "Icon": "string",
+        "Level": "integer",
+        "Grade": "string",
+        "Tooltip": "string"
+      }
+    ],
+    "Effects": {
+      "Description": "string",
+      "Skills": [
+        {
+          "GemSlot": "integer",
+          "Name": "string",
+          "Description": ["string"],
+          "Option": "string",
+          "Icon": "string",
+          "Tooltip": "string"
+        }
+      ]
+    }
+  },
+
+  "ColosseumInfo": {
+    "Colosseums": [
+      {
+        "SeasonName": "string",
+        "Competitive": {
+          "Rank": "integer",
+          "RankName": "string",
+          "RankIcon": "string",
+          "RankLastMmr": "integer",
+          "PlayCount": "integer",
+          "VictoryCount": "integer",
+          "LoseCount": "integer",
+          "TieCount": "integer",
+          "KillCount": "integer",
+          "AceCount": "integer",
+          "DeathCount": "integer"
+        },
+        "TeamDeathmatch": {
+          "AssistCount": "integer",
+          "PlayCount": "integer",
+          "VictoryCount": "integer",
+          "LoseCount": "integer",
+          "TieCount": "integer",
+          "KillCount": "integer",
+          "AceCount": "integer",
+          "DeathCount": "integer"
+        },
+        "TeamElimination": {
+          "FirstWinCount": "integer",
+          "SecondWinCount": "integer",
+          "ThirdWinCount": "integer",
+          "FirstPlayCount": "integer",
+          "SecondPlayCount": "integer",
+          "ThirdPlayCount": "integer",
+          "AllKillCount": "integer",
+          "PlayCount": "integer",
+          "VictoryCount": "integer",
+          "LoseCount": "integer",
+          "TieCount": "integer",
+          "KillCount": "integer",
+          "AceCount": "integer",
+          "DeathCount": "integer"
+        },
+        "CoOpBattle": {
+          "PlayCount": "integer",
+          "VictoryCount": "integer",
+          "LoseCount": "integer",
+          "TieCount": "integer",
+          "KillCount": "integer",
+          "AceCount": "integer",
+          "DeathCount": "integer"
+        },
+        "OneDeathmatch": {
+          "KillCount": "integer",
+          "DeathCount": "integer",
+          "AllKillCount": "integer",
+          "OutDamage": "integer ($int64)",
+          "InDamage": "integer ($int64)",
+          "FirstWinCount": "integer",
+          "SecondWinCount": "integer",
+          "ThirdWinCount": "integer",
+          "FirstPlayCount": "integer",
+          "SecondPlayCount": "integer",
+          "ThirdPlayCount": "integer"
+        }
+      }
+    ]
+  },
+
+  "Collectible": [
+    {
+      "Type": "string",
+      "Icon": "string",
+      "Point": "integer",
+      "MaxPoint": "integer",
+      "CollectiblePoints": [
+        {
+          "PointName": "string",
+          "Point": "integer",
+          "MaxPoint": "integer"
+        }
+      ]
+    }
+  ],
+
+  "ArkPassive": {
+    "Title": "string",
+    "IsArkPassive": "boolean",
+    "Points": [
+      {
+        "Name": "string",
+        "Value": "integer",
+        "Tooltip": "string",
+        "Description": "string"
+      }
+    ],
+    "Effects": [
+      {
+        "Name": "string",
+        "Description": "string",
+        "Icon": "string",
+        "ToolTip": "string"
       }
     ]
   }

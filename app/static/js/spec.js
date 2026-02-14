@@ -1,8 +1,8 @@
 /**
  * 캐릭터 스펙 정보 조회 탭
  * - API 호출: /api/character/{character_name}
- * - 데이터: { ArmoryEquipment, ArmoryCard: { Cards, Effects } }
- * - 렌더링: 장비 + 카드 정보
+ * - 데이터: { ArmoryEquipment, ArmoryCard: { Cards, Effects }, ArmoryEngraving: { Engravings, Effects } }
+ * - 렌더링: 장비 + 카드 + 각인 정보
  */
 
 // ============================================================
@@ -75,6 +75,11 @@ function showResultSpec(data) {
         html += renderEquipmentSection(data.ArmoryEquipment);
     }
 
+    // 각인 정보 렌더링
+    if (data.ArmoryEngraving && data.ArmoryEngraving.ArkPassiveEffects) {
+        html += renderEngravingSection(data.ArmoryEngraving.ArkPassiveEffects);
+    }
+
     // 카드 정보 렌더링
     if (data.ArmoryCard && data.ArmoryCard.Cards) {
         html += renderCardSection(data.ArmoryCard.Cards, data.ArmoryCard.Effects);
@@ -127,6 +132,47 @@ function getGradeClass(grade) {
         '일반': 'grade-common'
     };
     return gradeMap[grade] || 'grade-unknown';
+}
+
+// ============================================================
+// 각인 섹션 렌더링
+// ============================================================
+
+function renderEngravingSection(arkPassiveEffects) {
+    let html = '<div class="spec-section">';
+    html += '<h3 class="section-title">⚡ 각인</h3>';
+
+    // 아크 패시브 효과 (각인)
+    html += '<div class="engraving-list">';
+    arkPassiveEffects.forEach(effect => {
+        const gradeClass = getEngravingGradeClass(effect.Grade);
+
+        html += `<div class="engraving-item ${gradeClass}">
+            <div class="engraving-details">
+                <div class="engraving-grade">${effect.Grade}</div>
+                <div class="engraving-name">${effect.Name}</div>
+                ${effect.AbilityStoneLevel !== null ? `<div class="engraving-level">레벨 ${effect.AbilityStoneLevel}</div>` : ''}
+            </div>
+            <div class="engraving-desc">${effect.Description}</div>
+        </div>`;
+    });
+    html += '</div>';
+
+    html += '</div>';
+    return html;
+}
+
+function getEngravingGradeClass(grade) {
+    const gradeMap = {
+        '유물': 'engraving-grade-relic',
+        '고대': 'engraving-grade-ancient',
+        '전설': 'engraving-grade-legend',
+        '영웅': 'engraving-grade-hero',
+        '희귀': 'engraving-grade-rare',
+        '고급': 'engraving-grade-uncommon',
+        '일반': 'engraving-grade-common'
+    };
+    return gradeMap[grade] || 'engraving-grade-unknown';
 }
 
 // ============================================================
