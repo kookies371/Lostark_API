@@ -1,4 +1,4 @@
-from .base import LostarkLoader
+from core.loaders.base import LostarkLoader
 
 
 class AuctionLoader(LostarkLoader):

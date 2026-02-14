@@ -3,7 +3,7 @@ import requests
 from abc import *
 from typing import Optional
 
-from ..utils import get_JWT
+from core.utils import get_JWT
 
 
 class LostarkLoader(metaclass=ABCMeta):

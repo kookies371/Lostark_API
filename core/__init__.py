@@ -1,4 +1,4 @@
-from .loaders import (
+from core.loaders import (
     LostarkLoader,
     AuctionLoader,
     GemAuctionLoader,
@@ -7,8 +7,8 @@ from .loaders import (
     CardLoader,
     ArmoryProfileLoader,
 )
-from .entities import Accessory, AccessorySetting, AccessoryType, Engrave, Status
-from .utils import get_JWT
+from core.entities import Accessory, AccessorySetting, AccessoryType, Engrave, Status
+from core.utils import get_JWT
 
 __all__ = [
     "LostarkLoader",

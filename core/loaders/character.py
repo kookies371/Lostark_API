@@ -1,5 +1,5 @@
 from urllib import parse
-from .base import LostarkLoader
+from core.loaders.base import LostarkLoader
 
 
 class CharacterLoader(LostarkLoader):
