@@ -2,8 +2,7 @@ from enum import Enum
 from typing import Optional, List
 from collections import Counter
 
-from status import Status
-from engrave import Engrave
+from .enums import Status, Engrave
 
 
 class AccessoryType(Enum):

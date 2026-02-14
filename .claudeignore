@@ -1,0 +1,32 @@
+# 가상환경
+.venv/
+venv/
+env/
+
+# 의존성 및 빌드
+__pycache__/
+*.pyc
+*.egg-info/
+dist/
+build/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# 환경 및 보안
+.env
+.env.local
+_secret/
+
+# 데이터베이스
+*.db
+*.sqlite
+*.sqlite3
+
+# 캐시
+.streamlit/
+.pytest_cache/
+.mypy_cache/
