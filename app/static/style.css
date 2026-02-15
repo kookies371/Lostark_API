@@ -138,7 +138,7 @@ button:active {
     margin-bottom: 15px;
 }
 
-/* 원정대 정보 스타일 */
+/* 계정 캐릭터 정보 스타일 */
 .servers-container {
     display: flex;
     flex-direction: column;

@@ -43,16 +43,16 @@ async def health_check():
     return {"status": "ok"}
 
 
-@app.get("/api/expedition/{character_name}")
-async def get_character_expedition(character_name: str):
+@app.get("/api/account/{character_name}")
+async def get_account_characters(character_name: str):
     """
-    캐릭터 원정대 정보 조회
+    계정 캐릭터 정보 조회
 
     Args:
-        character_name: 조회할 캐릭터 이름
+        character_name: 조회할 캐릭터 이름 (이를 통해 계정 특정)
 
     Returns:
-        캐릭터의 원정대 정보 (JSON)
+        동일 계정의 모든 캐릭터 정보 (JSON)
     """
     try:
         loader = CharacterLoader()

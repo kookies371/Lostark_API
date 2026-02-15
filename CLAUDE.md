@@ -35,6 +35,20 @@
 
 ---
 
+## 🎮 게임 개념 설명
+
+### "원정대" vs "계정"
+- **원정대 (Expedition)**: 게임 내에서 **계정 내 서버별로 캐릭터를 그룹화**한 것
+  - 예: 루페온 서버에 5개 캐릭터 = 루페온 원정대 (5명)
+  - 동일 계정의 다른 서버 캐릭터들은 다른 원정대
+
+- **현재 구현 (`/api/account/{character_name}`)**:
+  - 캐릭터 이름으로 **그 캐릭터를 보유한 계정**을 특정
+  - 해당 계정의 **모든 캐릭터** 조회 (여러 서버 포함)
+  - 따라서 게임의 "원정대" 개념과는 다름
+
+---
+
 ## 🏗️ 프로젝트 구조
 
 ```
@@ -60,7 +74,7 @@ Lostark_API/
 │   │   ├── style.css
 │   │   └── js/
 │   │       ├── common.js          # 탭 전환, 공통 UI 함수
-│   │       ├── expedition.js      # 원정대 정보 조회
+│   │       ├── account.js         # 계정 캐릭터 조회 (서버별 그룹화)
 │   │       └── spec.js            # 스펙 정보 조회 (장비 + 카드)
 │   └── services/
 │       └── character.py           # 비즈니스 로직
@@ -143,7 +157,7 @@ Lostark_API/
 
 **1. 엔드포인트 설계**
 
-- `GET /api/expedition/{character_name}` - 원정대 정보 (캐릭터 목록)
+- `GET /api/account/{character_name}` - 계정 캐릭터 목록 (캐릭터명으로 계정 특정)
 - `GET /api/character/{character_name}` - 스펙 정보 (장비 + 카드)
 - `GET /health` - 헬스 체크
 
@@ -163,7 +177,7 @@ Lostark_API/
 **1. 모듈화된 JavaScript**
 
 - `common.js`: 탭 전환, 로딩/에러 상태 관리 (범용 함수)
-- `expedition.js`: 원정대 정보 조회 (서버별 그룹화, 정렬)
+- `account.js`: 계정 캐릭터 정보 조회 (서버별 그룹화, 정렬)
 - `spec.js`: 스펙 정보 조회 (장비 리스트, 카드 그리드, 세트 효과)
 
 **2. 데이터 구조 처리**
@@ -219,9 +233,9 @@ Lostark_API/
 
 ## 🔌 API 응답 구조
 
-### 1. `/api/expedition/{character_name}`
+### 1. `/api/account/{character_name}`
 
-같은 계정의 모든 캐릭터 조회
+캐릭터명으로 그 캐릭터를 보유한 계정의 모든 캐릭터 조회
 
 ```
 [ 캐릭터 객체, ... ]

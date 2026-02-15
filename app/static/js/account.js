@@ -1,7 +1,7 @@
 /**
- * 원정대 정보 조회 탭
- * - API 호출: /api/expedition/{character_name}
- * - 데이터: 서버별 캐릭터 목록
+ * 계정 캐릭터 정보 조회 탭
+ * - API 호출: /api/account/{character_name}
+ * - 데이터: 동일 계정의 모든 캐릭터 목록
  * - 렌더링: 서버별 그룹화 및 정렬
  */
 
@@ -9,20 +9,20 @@
 // API 호출
 // ============================================================
 
-async function searchExpedition() {
-    const characterName = document.getElementById('characterNameExpedition').value.trim();
+async function searchAccountCharacters() {
+    const characterName = document.getElementById('characterNameAccount').value.trim();
 
     if (!characterName) {
-        showErrorExpedition('캐릭터 이름을 입력해주세요.');
+        showErrorAccount('캐릭터 이름을 입력해주세요.');
         return;
     }
 
-    showLoadingExpedition(true);
-    hideErrorExpedition();
-    hideResultExpedition();
+    showLoadingAccount(true);
+    hideErrorAccount();
+    hideResultAccount();
 
     try {
-        const response = await fetch(`/api/expedition/${encodeURIComponent(characterName)}`);
+        const response = await fetch(`/api/account/${encodeURIComponent(characterName)}`);
 
         if (!response.ok) {
             const errorData = await response.json();
@@ -30,11 +30,11 @@ async function searchExpedition() {
         }
 
         const data = await response.json();
-        showResultExpedition(data);
+        showResultAccount(data);
     } catch (error) {
-        showErrorExpedition(`오류: ${error.message}`);
+        showErrorAccount(`오류: ${error.message}`);
     } finally {
-        showLoadingExpedition(false);
+        showLoadingAccount(false);
     }
 }
 
@@ -42,25 +42,25 @@ async function searchExpedition() {
 // UI 제어
 // ============================================================
 
-function showLoadingExpedition(show) {
-    setLoading('loadingExpedition', show);
+function showLoadingAccount(show) {
+    setLoading('loadingAccount', show);
 }
 
-function showErrorExpedition(message) {
-    setError('errorExpedition', message);
+function showErrorAccount(message) {
+    setError('errorAccount', message);
 }
 
-function hideErrorExpedition() {
-    clearError('errorExpedition');
+function hideErrorAccount() {
+    clearError('errorAccount');
 }
 
-function hideResultExpedition() {
-    setResult('resultExpedition', false);
+function hideResultAccount() {
+    setResult('resultAccount', false);
 }
 
-function showResultExpedition(data) {
-    const resultDiv = document.getElementById('resultExpedition');
-    const jsonContent = document.getElementById('jsonContentExpedition');
+function showResultAccount(data) {
+    const resultDiv = document.getElementById('resultAccount');
+    const jsonContent = document.getElementById('jsonContentAccount');
 
     // 서버별로 그룹화
     const groupedByServer = groupCharactersByServer(data);

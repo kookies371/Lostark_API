@@ -13,35 +13,35 @@
 
         <!-- 탭 메뉴 -->
         <div class="tabs">
-            <button class="tab-button active" onclick="switchTab('expedition', this)">
-                원정대 정보
+            <button class="tab-button active" onclick="switchTab('account', this)">
+                계정 캐릭터
             </button>
             <button class="tab-button" onclick="switchTab('spec', this)">
                 스펙 정보
             </button>
         </div>
 
-        <!-- 탭 1: 원정대 정보 -->
-        <div id="tab-expedition" class="tab-content active">
+        <!-- 탭 1: 계정 캐릭터 정보 -->
+        <div id="tab-account" class="tab-content active">
             <div class="search-form">
                 <input
                     type="text"
-                    id="characterNameExpedition"
+                    id="characterNameAccount"
                     placeholder="캐릭터 이름을 입력하세요"
-                    onkeypress="if(event.key==='Enter') searchExpedition()"
+                    onkeypress="if(event.key==='Enter') searchAccountCharacters()"
                 >
-                <button onclick="searchExpedition()">검색</button>
+                <button onclick="searchAccountCharacters()">검색</button>
             </div>
 
-            <div class="loading" id="loadingExpedition">
+            <div class="loading" id="loadingAccount">
                 검색 중...
             </div>
 
-            <div class="error" id="errorExpedition"></div>
+            <div class="error" id="errorAccount"></div>
 
-            <div class="result" id="resultExpedition">
+            <div class="result" id="resultAccount">
                 <h2>검색 결과</h2>
-                <div id="jsonContentExpedition"></div>
+                <div id="jsonContentAccount"></div>
             </div>
         </div>
 
@@ -72,8 +72,7 @@
 
     <!-- 메인 스크립트 로드 순서 -->
     <script src="/static/js/common.js"></script>
-    <script src="/static/js/expedition.js"></script>
+    <script src="/static/js/account.js"></script>
     <script src="/static/js/spec.js"></script>
-    <script src="/static/js/app.js"></script>
 </body>
 </html>
