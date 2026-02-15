@@ -65,7 +65,14 @@ async def get_account_characters(character_name: str):
 @app.get("/api/character/{character_name}")
 async def get_character_spec(character_name: str):
     """
-    캐릭터 스펙 정보 조회 (장비, 스텟, 각인 등)
+    캐릭터 스펙 정보 조회
+    - 프로필
+    - 장비
+    - 카드
+    - 보석
+    - 각인
+    - 아크패시브
+    - 아크그리드
 
     Args:
         character_name: 조회할 캐릭터 이름
@@ -75,7 +82,7 @@ async def get_character_spec(character_name: str):
     """
     try:
         loader = ArmoryProfileLoader()
-        result = loader.load(character_name, filters=["equipment", "cards", "engravings"])
+        result = loader.load(character_name, filters=["equipment", "cards", "engravings", "gems", "profiles", "arkpassive", "arkgrid"])
         return result
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
